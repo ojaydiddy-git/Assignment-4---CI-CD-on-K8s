@@ -1,13 +1,13 @@
-# cdevops-gitea
-k8s gitea lab to take dev (sqlite based) to prod (mysql based)
+# cdevops-jenkins
+k8s lab to install jenkins and use it from github and gitea
 
 TLDR;
 
 ```bash
-cd dev && ansible-playbook up.yaml
+ansible-playbook up.yaml
 ```
 
-If that fails you may need some pre-requisites
+You may need some pre-requisites
 
 1. Make sure that docker is running by doing `docker ps` until it shows 
 
@@ -35,15 +35,7 @@ If you have another result try installing a k8s cluster:
 bash <(curl -Ls https://raw.githubusercontent.com//conestogac-acsit/cdevops-bootstrap/refs/heads/main/k8s.sh)
 ```
 
-Once you have made it through the `up.yaml` playbook you can forward the port:
-
-```bash
-kubectl port-forward svc/gitea-http 3000:3000
-```
-
-Now you should be able to access gitea in development mode.
-
-The challenge is to run this in production mode from a prod folder at the same level as the dev folder with it's own up, down and values.yaml.
+Your job is to edit the up.yaml to add jenkins to your cluster and down.yaml to remove it. You will also need to expose jenkins with the ngrok ingress, as you did with the previous assignment.
 
 ### Points to Cover
 
@@ -51,11 +43,16 @@ The challenge is to run this in production mode from a prod folder at the same l
 
 |Item|Out Of|
 |--|--:|
-|use [the gitea helm](https://gitea.com/gitea/helm-gitea) to make the repository data persistent|2|
-|change the root password for the provided mysql service|2|
-|make gitea use the provided mysql service|2|
-|Use [this article](https://blog.techiescamp.com/using-ngrok-with-kubernetes/) to expose your gitea instance publically|2|
-|create a public clone of your finished work, based on this template on your gitea|1|
-|make sure that your instance is running for marking and submit a link to the repository from the previous step|1|
+|use [this article](https://www.digitalocean.com/community/tutorials/how-to-install-jenkins-on-kubernetes) and [this documentation](https://docs.ansible.com/ansible/latest/collections/kubernetes/core/k8s_module.html) to create an up.yaml that installs jenkins on your cluster|2|
+|create a down.yaml that makes the resources created by up.yaml absent. (you will need to reverse the order)|2|
+|Use [this article](https://www.jenkins.io/doc/tutorials/build-a-python-app-with-pyinstaller/) to create a 2nd repository containing a Jenkinsfile|2|
+|push this repository to github and configure github to run the Jenkinsfile through the ngrok ingress|2|
+|push this repository to gitea and configure gitea to run the jenkins file with the cluster ip|2|
 |||
 |total|10|
+
+Submit links to all 3 repositories:
+
+1. this repository with your up.yaml and down.yaml for running jenkins on your cluster.
+2. your github repository with the fork from the article and a Jenkinsfile.
+3. your gitea repository with the fork from the article and a Jenkinsfile, exposed with the ngrok ingress
