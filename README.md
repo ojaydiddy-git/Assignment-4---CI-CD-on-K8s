@@ -35,7 +35,7 @@ If you have another result try installing a k8s cluster:
 bash <(curl -Ls https://raw.githubusercontent.com//conestogac-acsit/cdevops-bootstrap/refs/heads/main/k8s.sh)
 ```
 
-Your job is to edit the up.yaml to add jenkins to your cluster and down.yaml to remove it. You will also need to expose jenkins with the ngrok ingress, as you did with the previous assignment.
+Your job is to edit the up.yaml to add jenkins to your cluster and down.yaml to remove it. You will also need to expose jenkins with the ngrok or traefik and cloudflare ingress, as you did with the previous assignment.
 
 ### Points to Cover
 
@@ -46,7 +46,7 @@ Your job is to edit the up.yaml to add jenkins to your cluster and down.yaml to 
 |use [this article](https://www.digitalocean.com/community/tutorials/how-to-install-jenkins-on-kubernetes) and [this documentation](https://docs.ansible.com/ansible/latest/collections/kubernetes/core/k8s_module.html) to create an up.yaml that installs jenkins on your cluster|2|
 |create a down.yaml that makes the resources created by up.yaml absent. (you will need to reverse the order)|2|
 |Use [this article](https://www.jenkins.io/doc/tutorials/build-a-python-app-with-pyinstaller/) to create a 2nd repository containing a Jenkinsfile|2|
-|push this repository to github and configure github to run the Jenkinsfile through the ngrok ingress|2|
+|push this repository to github and configure github to run the Jenkinsfile through the ngrok or traefik and cloudflare ingress|2|
 |push this repository to gitea and configure gitea to run the jenkins file with the cluster ip|2|
 |||
 |total|10|
@@ -55,4 +55,4 @@ Submit links to all 3 repositories:
 
 1. this repository with your up.yaml and down.yaml for running jenkins on your cluster.
 2. your github repository with the fork from the article and a Jenkinsfile.
-3. your gitea repository with the fork from the article and a Jenkinsfile, exposed with the ngrok ingress
+3. your gitea repository with the fork from the article and a Jenkinsfile, exposed with the ngrok or traefik and cloudflare ingress
