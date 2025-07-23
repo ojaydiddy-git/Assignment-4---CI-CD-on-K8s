@@ -7,32 +7,28 @@ TLDR;
 ansible-playbook up.yaml
 ```
 
-You may need some pre-requisites
+This is intended to be run on a machine with access to a kubernetes cluster, It also may be helpful to use docker for this part. If you are using this for class you should have to vsphere virtual machines. 1 will have truenas on it, the other stock ubuntu with support for a codespace.
 
-1. Make sure that docker is running by doing `docker ps` until it shows 
+In assignment 3 you added gitea to your kubernetes cluster
 
-```
-CONTAINER ID   IMAGE                            COMMAND                  CREATED         STATUS         PORTS                             NAMES
+```mermaid
+    C4Deployment
+    title Deployment Diagram for private CI/CD pipeline for atomic crm
 
-```
+    Deployment_Node(truenas, "Truenas Instance on VSPHERE", "10.172.27.6 (in my case)"){
+        Deployment_Node(docker, "Truenas Applications run on Docker", "Docker", "Docker is used by truenas to run apps. There is an app portion of the web interface. Docker can also be run with sudo on the shell."){
+            Container(cloudflared, "Tunnel from my subnet to the internet", "JavaScript and Angular", "Provides all of the Internet Banking functionality to customers via their web browser.")
 
-2. run `ansible-playbook --version` to see if you have ansible. If not run:
+        }
 
-```bash
-bash <(curl -Ls https://raw.githubusercontent.com/conestogac-acsit/cdevops-bootstrap/refs/heads/main/bootstrap.sh)
-```
+        
+    }
 
-3. run `kubectl get ns default` to see if you have a cluster. The expected result is:
-
-```
-NAME      STATUS   AGE
-default   Active   29m
-```
-
-If you have another result try installing a k8s cluster:
-
-```bash
-bash <(curl -Ls https://raw.githubusercontent.com//conestogac-acsit/cdevops-bootstrap/refs/heads/main/k8s.sh)
+    Deployment_Node(comp, "Customer's computer", "Microsoft Windows or Apple macOS"){
+        Deployment_Node(browser, "Web Browser", "Google Chrome, Mozilla Firefox,<br/> Apple Safari or Microsoft Edge"){
+            Container(spa, "Single Page Application", "JavaScript and Angular", "Provides all of the Internet Banking functionality to customers via their web browser.")
+        }
+    }
 ```
 
 Your job is to edit the up.yaml to add jenkins to your cluster and down.yaml to remove it. You will also need to expose jenkins with the ngrok or traefik and cloudflare ingress, as you did with the previous assignment.
