@@ -15,18 +15,38 @@ In assignment 3 you added gitea to your kubernetes cluster
     C4Deployment
     title Deployment Diagram for private CI/CD pipeline for atomic crm
 
-    Deployment_Node(truenas, "Truenas Instance on VSPHERE", "10.172.27.6 (in my case)"){
-        Deployment_Node(docker, "Truenas Applications run on Docker", "Docker", "Docker is used by truenas to run apps. There is an app portion of the web interface. Docker can also be run with sudo on the shell."){
+    Deployment_Node(truenas, "Truenas Instance on VSPHERE", "truenas", "10.172.27.6 (in my case)"){
+        Container(nfs, "block storage", "nfs","application pool")
+        Deployment_Node(docker, "Truenas Applications run on Docker", "Docker"){
             Container(cloudflared, "Tunnel from my subnet to the internet", "JavaScript and Angular", "Provides all of the Internet Banking functionality to customers via their web browser.")
+            Deployment_Node("signoz-net", "Signoz Network from docker compose", "signoz-net"){
+                Container("signoz-otel-collector","signoz-otel-collector")
+                Container("signoz", "signoz")
+                Container("signoz-clickhouse","signoz-clickhouse")
+                Container("signoz-otel-collector-docker", "signoz-otel-collector-docker")
+                Container("signoz-logspout", "signoz-logspout")
+                Container("signoz-zookeeper-1", "signoz-zookeeper-1")
+
+            }
 
         }
 
         
     }
 
-    Deployment_Node(comp, "Customer's computer", "Microsoft Windows or Apple macOS"){
-        Deployment_Node(browser, "Web Browser", "Google Chrome, Mozilla Firefox,<br/> Apple Safari or Microsoft Edge"){
-            Container(spa, "Single Page Application", "JavaScript and Angular", "Provides all of the Internet Banking functionality to customers via their web browser.")
+    Deployment_Node(ubuntu, "codespace on vsphere cluster", "10.172.27.33 (in my case)"){
+        Container(cloudflared, "Cloudflared running as a service", "systemctl")
+        Deployment_Node(alsodocker, "Docker"){
+            Container(na, "So far nothing in here")
+        }
+        Deployment_Node(kubernetes, "Kubernetes cluster"){
+            Deployment_Node(default, "Default Namespace"){
+                Container(gitea-http, "gitea-http")
+                Container(gitea-ssh, "gitea-ssh")
+                Container(gitea-valkey-cluster, "gitea-valkey-cluster")
+                Container(gitea-valkey-cluster-headless, "gitea-valkey-cluster-headless")
+                Container(gitea-ingress, "gitea-ingress", "traefik")
+            }
         }
     }
 ```
