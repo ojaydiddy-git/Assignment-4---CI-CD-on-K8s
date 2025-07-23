@@ -39,11 +39,11 @@ In assignment 3 you added gitea to your kubernetes cluster
         Container(code-server, "vscode running as a server", "systemctl")
         Container(oauth-proxy, "Github login", "systemctl")
 
-        Deployment_Node(alsodocker, "Docker"){
+        Deployment_Node(alsodocker, "Docker", "systemctl"){
             Container(na, "So far nothing in here")
         }
-        Deployment_Node(kubernetes, "Kubernetes cluster"){
-            Deployment_Node(default, "Default Namespace"){
+        Deployment_Node(kubernetes, "Kubernetes cluster", "systemctl"){
+            Deployment_Node(default, "Default Namespace", "k3s"){
                 Container(gitea-http, "gitea-http")
                 Container(gitea-ssh, "gitea-ssh")
                 Container(gitea-valkey-cluster, "gitea-valkey-cluster")
