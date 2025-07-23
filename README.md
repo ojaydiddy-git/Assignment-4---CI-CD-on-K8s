@@ -18,7 +18,7 @@ In assignment 3 you added gitea to your kubernetes cluster
     Deployment_Node(truenas, "Truenas Instance on VSPHERE", "truenas", "10.172.27.6 (in my case)"){
         Container(nfs, "block storage", "nfs","application pool")
         Deployment_Node(docker, "Truenas Applications run on Docker", "Docker"){
-            Container(cloudflared, "Tunnel from my subnet to the internet", "JavaScript and Angular", "Provides all of the Internet Banking functionality to customers via their web browser.")
+            Container(cloudflared-docker-image, "Tunnel from my subnet to the internet")
             Deployment_Node("signoz-net", "Signoz Network from docker compose", "signoz-net"){
                 Container("signoz-otel-collector","signoz-otel-collector")
                 Container("signoz", "signoz")
@@ -35,7 +35,10 @@ In assignment 3 you added gitea to your kubernetes cluster
     }
 
     Deployment_Node(ubuntu, "codespace on vsphere cluster", "10.172.27.33 (in my case)"){
-        Container(cloudflared, "Cloudflared running as a service", "systemctl")
+        Container(cloudflared-systemd, "Cloudflared", "systemctl")
+        Container(code-server, "vscode running as a server", "systemctl")
+        Container(oauth-proxy, "Github login", "systemctl")
+
         Deployment_Node(alsodocker, "Docker"){
             Container(na, "So far nothing in here")
         }
