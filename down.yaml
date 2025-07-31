@@ -1,19 +1,8 @@
 ---
 - name: Teardown Jenkins and Clean Up Environment
   hosts: localhost
+  gather_facts: no
   tasks:
-
-    - name: Remove Kubernetes Python package
-      pip:
-        name: kubernetes
-        state: absent
-
-    - name: Delete Jenkins Ingress
-      kubernetes.core.k8s:
-        state: absent
-        namespace: jenkins
-        kind: Ingress
-        name: jenkins-ingress
 
     - name: Delete Jenkins Service
       kubernetes.core.k8s:
@@ -29,9 +18,27 @@
         kind: Deployment
         name: jenkins
 
-    - name: Delete Jenkins Namespace (optional)
+    - name: Delete Jenkins PVC
+      kubernetes.core.k8s:
+        state: absent
+        definition:
+          apiVersion: v1
+          kind: PersistentVolumeClaim
+          metadata:
+            name: jenkins-pvc
+            namespace: jenkins
+
+    - name: Delete Jenkins PV
+      kubernetes.core.k8s:
+        state: absent
+        definition:
+          apiVersion: v1
+          kind: PersistentVolume
+          metadata:
+            name: jenkins-pv
+
+    - name: Delete Jenkins Namespace
       kubernetes.core.k8s:
         state: absent
         kind: Namespace
         name: jenkins
-      ignore_errors: yes

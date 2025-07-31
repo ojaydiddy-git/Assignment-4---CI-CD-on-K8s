@@ -73,7 +73,8 @@
                         mountPath: /var/jenkins_home
                 volumes:
                   - name: jenkins-data
-                    emptyDir: {}
+                    PersistentVolumeClaim:
+                      claimName: jenkins-pvc
                     
     - name: Create Jenkins Service
       kubernetes.core.k8s:
