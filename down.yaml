@@ -1,7 +1,37 @@
 ---
-- hosts: localhost
+- name: Teardown Jenkins and Clean Up Environment
+  hosts: localhost
   tasks:
-  - name: "remove kubernetes python package"
-    pip:
-      name: kubernetes
-      state: absent
+
+    - name: Remove Kubernetes Python package
+      pip:
+        name: kubernetes
+        state: absent
+
+    - name: Delete Jenkins Ingress
+      kubernetes.core.k8s:
+        state: absent
+        namespace: jenkins
+        kind: Ingress
+        name: jenkins-ingress
+
+    - name: Delete Jenkins Service
+      kubernetes.core.k8s:
+        state: absent
+        namespace: jenkins
+        kind: Service
+        name: jenkins-service
+
+    - name: Delete Jenkins Deployment
+      kubernetes.core.k8s:
+        state: absent
+        namespace: jenkins
+        kind: Deployment
+        name: jenkins
+
+    - name: Delete Jenkins Namespace (optional)
+      kubernetes.core.k8s:
+        state: absent
+        kind: Namespace
+        name: jenkins
+      ignore_errors: yes
