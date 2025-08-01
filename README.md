@@ -70,7 +70,7 @@ Your job is to edit the up.yaml to add jenkins to your cluster and down.yaml to 
 |||
 |total|10|
 
-Submit links to all 3 repositories:
+Submit links to all 3 repositories://///////////
 
 1. this repository with your up.yaml and down.yaml for running jenkins on your cluster.
 2. your github repository with the fork from the article and a Jenkinsfile.
