@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Clone Repository') {
             steps {
-                git 'https://github.com/ojaydiddy-git/Assignment-4---CI-CD-on-K8s.git'
+                git branch: 'main', url: 'https://github.com/ojaydiddy-git/Assignment-4---CI-CD-on-K8s.git'
             }
         }
 
