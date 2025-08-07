@@ -1,0 +1,34 @@
+postgresql-ha:
+  enabled: false
+
+postgresql:
+  enabled: true
+  auth:
+    postgresPassword: "postgres"
+    username: gitea
+    password: gitea
+    database: gitea
+
+gitea:
+  config:
+    database:
+      DB_TYPE: postgres
+      HOST: gitea-postgresql.gitea.svc.cluster.local:5432
+      NAME: gitea
+      USER: gitea
+      PASSWD: gitea
+
+ingress:
+  enabled: true
+  className: traefik
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+  hosts:
+    - host: gitea.ojaydiddy.site
+      paths:
+        - path: /
+          pathType: Prefix
+
+
+
